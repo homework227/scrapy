@@ -120,9 +120,11 @@ _scrapy_root_handler = None
 
 def _get_handler(settings):
     """ Return a log handler object according to settings """
-    max_bytes = settings.get('LOG_MAX_BYTES')
+    rotating = settings.get('LOG_ROTATING')
     filename = settings.get('LOG_FILE')
-    if filename and max_bytes:
+    if rotating:
+        encoding = settings.get('LOG_ENCODING')
+        max_bytes = settings.get('LOG_MAX_BYTES')
         backup_count = settings.get('LOG_BACKUP')
         handler = RotatingFileHandler(filename, maxBytes=max_bytes, backupCount=backup_count, encoding=encoding)
     elif filename:
